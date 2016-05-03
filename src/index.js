@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Route, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import ReactStormpath, { Router, AuthenticatedRoute } from 'react-stormpath';
+import ReactStormpath, { HomeRoute, Router, AuthenticatedRoute } from 'react-stormpath';
 import ReduxPromise from 'redux-promise';
 
 // reducers, Components & Containers
@@ -37,14 +37,14 @@ ReactStormpath.init({
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <Router history={browserHistory} >
-      <Route component={App}>
+      <HomeRoute component={App}>
         <Route path="/" component={Home} />
         <Route path="/products/search" component={Home} />
         <Route path="/register" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/products/:id" component={ViewProduct} />
         <AuthenticatedRoute path="/add" inGroup="Importer" component={AddProduct} />
-      </Route>
+      </HomeRoute>
     </Router>
   </Provider>
   , document.querySelector('.container'));

@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import { LoginLink, LogoutLink, NotAuthenticated, Authenticated } from 'react-stormpath';
 import { searchProduct } from '../actions/index.js';
-import { browserHistory } from 'react-router'
+import { browserHistory, Link } from 'react-router';
 
 class Navbar extends React.Component {
   static contextTypes = {
     user: React.PropTypes.object,
-    router: React.PropTypes.object
+    authenticated: React.PropTypes.bool
   };
 
   constructor(props) {
@@ -18,6 +18,7 @@ class Navbar extends React.Component {
   updateSearchQuery(event) {
     this.setState({term: event.target.value});
   }
+
 
   handleSubmit(event) {
     event.preventDefault();
@@ -82,13 +83,13 @@ class Navbar extends React.Component {
                   </ul>
                   <ul className="nav navbar-nav navbar-right">
                     <NotAuthenticated>
-                      <li> <a href="/login"><span className="glyphicon glyphicon-log-in"></span> Log In </a></li>
+                      <li> <LoginLink><span className="glyphicon glyphicon-log-in"></span> Log In </LoginLink></li>
                     </NotAuthenticated>
                     <NotAuthenticated>
-                      <li><a href="/register"><span className="glyphicon glyphicon-align-left" aria-hidden="true"></span> Sign Up</a></li>
+                      <li><Link to="/register"><span className="glyphicon glyphicon-align-left" aria-hidden="true"></span> Sign Up</Link></li>
                     </NotAuthenticated>
-                    <Authenticated>
-                      <li><a href="/add"><span className="glyphicon glyphicon-plus"></span> Add a product</a></li>
+                    <Authenticated inGroup="Importer" >
+                      <li><Link to="/add"><span className="glyphicon glyphicon-plus"></span> Add a product</Link></li>
                     </Authenticated>
                     <Authenticated>
                         <li><LogoutLink><span className="glyphicon glyphicon-log-out"></span> Log Out</LogoutLink></li>
@@ -119,8 +120,12 @@ class Navbar extends React.Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {state: state};
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ searchProduct }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(Navbar);

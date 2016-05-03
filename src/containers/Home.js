@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
-import { getAllProducts, removeProduct } from '../actions/index';
+import { getAllProducts, removeProduct, searchProduct } from '../actions/index';
 import RenderProducts from '../components/RenderProducts';
 
 class Home extends React.Component {
@@ -13,11 +13,16 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
   }
-
-  componentDidMount() {
-    if(this.props.products.length <= 0){
+  componentWillMount() {
+    if(this.props.location.query.name !== undefined){
+      this.props.searchProduct(this.props.location.query.name);
+    }else if(this.props.products <= 0){
     this.props.getAllProducts();      
     };
+  }
+
+  componentDidMount() {
+   
   }
 
   onRemoveProduct(id) {
@@ -25,7 +30,6 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log(this.context.user);
       if(!this.props.products){
         return (
           <div className='container'>
@@ -44,7 +48,7 @@ class Home extends React.Component {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ getAllProducts, removeProduct }, dispatch);
+  return bindActionCreators({ getAllProducts, removeProduct, searchProduct }, dispatch);
 }
 
 function mapStateToProps(state) {
