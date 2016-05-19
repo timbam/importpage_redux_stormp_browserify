@@ -4,7 +4,7 @@ import { createProduct } from '../actions/index';
 import { bindActionCreators } from 'redux';
 import { reduxForm } from 'redux-form';
 
-class AddProduct extends React.Component {
+class ProductAdd extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
@@ -101,4 +101,4 @@ export default reduxForm({
   form: 'ProductsNewForm',
   fields: ['name', 'description', 'price', 'files'],
   validate
-}, null, { createProduct })(AddProduct);
+}, null, { createProduct })(ProductAdd);

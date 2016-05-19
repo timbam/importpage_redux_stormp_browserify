@@ -12,8 +12,10 @@ import App from './components/App';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
 import Home from './containers/Home';
-import AddProduct from './containers/AddProduct';
-import ViewProduct from './containers/ViewProduct';
+import ProductAdd from './containers/ProductAdd';
+import ProductView from './containers/ProductView';
+import CartView from './containers/CartView';
+import Profile from './containers/Profile';
 
 // const createStoreWithMiddleware = applyMiddleware(ReduxPromise)(createStore);
 const createStoreWithMiddleware = compose(
@@ -24,7 +26,7 @@ const createStoreWithMiddleware = compose(
 //       applyMiddleware(ReduxPromise),
 //       window.devToolsExtension ? window.devToolsExtension() : f => f
 //     ));
-
+// useRouterHistory creates a composable higher-order function
 
 ReactStormpath.init({
   dispatcher: {
@@ -42,8 +44,10 @@ ReactDOM.render(
         <Route path="/products/search" component={Home} />
         <Route path="/register" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/products/:id" component={ViewProduct} />
-        <AuthenticatedRoute path="/add" inGroup="Importer" component={AddProduct} />
+        <Route path="/products/:id" component={ProductView} />
+        <Route path="/cart" component={CartView} />
+        <AuthenticatedRoute path="/add" inGroup="Importer" component={ProductAdd} />
+        <AuthenticatedRoute path="/profile" component={Profile} />
       </HomeRoute>
     </Router>
   </Provider>

@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { getAllProducts, removeProduct, searchProduct } from '../actions/index';
-import RenderProducts from '../components/RenderProducts';
+import ProductsRender from '../components/ProductsRender';
+import cookie from 'react-cookie';
 
 class Home extends React.Component {
   static contextTypes = {
@@ -14,17 +15,17 @@ class Home extends React.Component {
     super(props);
   }
   componentWillMount() {
+    // If a search has been done, render search results. If not, render all products (Or top 20 or something)
     if(this.props.location.query.name !== undefined){
       this.props.searchProduct(this.props.location.query.name);
-    }else if(this.props.products <= 0){
+    }
+    else if(this.props.products <= 0){
     this.props.getAllProducts();      
     };
   }
 
-  componentDidMount() {
-   
+  componentWillUnmount() {
   }
-
   onRemoveProduct(id) {
     this.props.removeProduct(id);
   }
@@ -42,7 +43,7 @@ class Home extends React.Component {
         );
       }
       return(
-      <RenderProducts products={this.props.products} onRemoveProduct={this.onRemoveProduct.bind(this)} />
+      <ProductsRender products={this.props.products} onRemoveProduct={this.onRemoveProduct.bind(this)} />
       );
   }
 }

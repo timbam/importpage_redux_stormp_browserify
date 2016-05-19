@@ -3,6 +3,8 @@ var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var path = require('path');
 var express = require('express');
+var cookieParser = require('cookie-parser');
+var reactCookie = require('react-cookie');
 // Database stuff
 var mongoose = require('mongoose');
 var multer  = require('multer');
@@ -17,6 +19,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/products', express.static(__dirname + '/public'));
+
+// Session stuff
+app.use(cookieParser());
+// app.use(session({
+//   secret: 'blargadeeblargblarg', // should be a large unguessable string
+//   saveUnitialized: true,
+//   resave: true
+//   // : 24 * 60 * 60 * 1000, // how long the session will stay valid in ms
+//   // cookie: {
+//   //   // path: '/api', // cookie will only be sent to requests under '/api'
+//   //   ephemeral: false, // when true, cookie expires when the browser closes
+//   //   httpOnly: true, // when true, cookie is not accessible from javascript
+//   //   secure: false // when true, cookie will only be sent over SSL. use key 'secureProxy' instead if you handle SSL not in your node process
+//   // }
+// }));
 
 // Stormpath stuff
 app.use(stormpath.init(app, {
@@ -87,6 +104,7 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 // GET /api/products
 // gets all products
 app.get('/api/products', function(req, res, next){
+  console.log('Get all products requested');
   Product.find().exec(function(err, products){
     if(err) return next(err);
       res.send(products);
@@ -117,6 +135,7 @@ app.get('/api/products/search', function(req, res, next) {
 // Returns detailed product information
 app.get('/api/products/:id', function(req, res, next){
   var id = req.params.id;
+  console.log('Got request!');
 
   Product.findById((id), function(err, product){
     if(err) return next(err);
@@ -173,6 +192,7 @@ app.post('/api/remove', function(req, res, next){
 
 // other requests
 app.get('*', function (req, res) {
+  reactCookie.plugToRequest(req, res);
   res.sendFile(path.join(__dirname, 'views/index.html'));
 });
 

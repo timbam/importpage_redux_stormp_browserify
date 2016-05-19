@@ -24,13 +24,12 @@ class Navbar extends React.Component {
     event.preventDefault();
     this.props.searchProduct(this.state.term).
     then(() => {
-      browserHistory.push('/products/search?name=' + this.state.term);
+      this.props.history.push('/products/search?name=' + this.state.term);
       this.setState({ term: ''});
     });
   }
 
   render(){
-    console.log(this.context.user);
     return (
       <nav className="navbar navbar-inverse navbar-fixed-top">
           <div className="container-fluid">
@@ -53,7 +52,7 @@ class Navbar extends React.Component {
                               <li><a href="#">Cheese</a></li>
                           </ul>
                       </li>
-                      <li className="dropdown">
+                      {/*<li className="dropdown">
                           <a className="dropdown-toggle" data-toggle="dropdown" href="#">France
                               <span className="caret"></span></a>
                           <ul className="dropdown-menu">
@@ -79,7 +78,7 @@ class Navbar extends React.Component {
                               <li><a href="#">Page 1-2</a></li>
                               <li><a href="#">Page 1-3</a></li>
                           </ul>
-                      </li>
+                      </li>*/}
                   </ul>
                   <ul className="nav navbar-nav navbar-right">
                     <NotAuthenticated>
@@ -88,13 +87,13 @@ class Navbar extends React.Component {
                     <NotAuthenticated>
                       <li><Link to="/register"><span className="glyphicon glyphicon-align-left" aria-hidden="true"></span> Sign Up</Link></li>
                     </NotAuthenticated>
-                    <Authenticated inGroup="Importer" >
-                      <li><Link to="/add"><span className="glyphicon glyphicon-plus"></span> Add a product</Link></li>
+                    <Authenticated >
+                      <li><Link to="/profile"><span className="glyphicon glyphicon-user"></span> Your Profile </Link></li>
                     </Authenticated>
                     <Authenticated>
                         <li><LogoutLink><span className="glyphicon glyphicon-log-out"></span> Log Out</LogoutLink></li>
                     </Authenticated>
-                      {/*<li><a href="/add"><span className="glyphicon glyphicon-shopping-cart"></span> Your items</a></li>*/}
+                      <li><Link to="/cart"><span className="glyphicon glyphicon-shopping-cart"></span> Your items</Link></li>
                   </ul>
                   <ul className="nav navbar-left animated">
                     <li>
@@ -121,7 +120,7 @@ class Navbar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  return {state: state};
+  return { state };
 }
 
 function mapDispatchToProps(dispatch) {
