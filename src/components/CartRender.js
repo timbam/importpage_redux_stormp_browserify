@@ -35,6 +35,7 @@ export default (props) => {
           </tbody>
         </table>
         <h3>Total Sum: {sum} </h3>
+        <button className="btn" onClick={props.checkOutReq.bind(this)}>Reset shopping cart</button>
       </div>
     );    
 }

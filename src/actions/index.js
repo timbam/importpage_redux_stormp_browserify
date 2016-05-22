@@ -56,13 +56,6 @@ export function removeProduct(id) {
   };
 }
 
-// export function addToCart(productId) { 
-//   return {
-//     type: ADD_TO_CART,
-//     payload: productId
-//   };
-// }
-
 export function addToCart(product) {
   return {
     type: ADD_TO_CART,
@@ -83,8 +76,8 @@ export function checkOutReq() {
   };
 }
 
-export function checkOutFail() {
-  return{
-    type: CHECKOUT_FAILURE
-  };
-}
+// export function checkOutFail() {
+//   return{
+//     type: CHECKOUT_FAILURE
+//   };
+// }

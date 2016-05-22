@@ -15,7 +15,8 @@ class Home extends React.Component {
     super(props);
   }
   componentWillMount() {
-    // If a search has been done, render search results. If not, render all products (Or top 20 or something)
+    // If a search has been done, render search results. 
+    // If not, render all products (Or top 20 or something)
     if(this.props.location.query.name !== undefined){
       this.props.searchProduct(this.props.location.query.name);
     }
@@ -43,7 +44,9 @@ class Home extends React.Component {
         );
       }
       return(
-      <ProductsRender products={this.props.products} onRemoveProduct={this.onRemoveProduct.bind(this)} />
+        <ProductsRender 
+        products={this.props.products} 
+        onRemoveProduct={this.onRemoveProduct.bind(this)} />
       );
   }
 }

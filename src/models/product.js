@@ -5,11 +5,8 @@ var productSchema = new mongoose.Schema({
   description: String,
   country: String,
   category: String,
-  // images: {
-  //   data: Buffer,
-  //   contentType: String
-  // },
-  paths: [String],  
+  paths: [String],
+  pathsThumb: [String],  
   price: Number,
   timesSold: { type: Number, default: 0 }
 });

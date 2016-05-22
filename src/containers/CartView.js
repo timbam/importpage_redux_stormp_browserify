@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addToCart, removeFromCart } from '../actions/index.js';
+import { addToCart, removeFromCart, checkOutReq } from '../actions/index.js';
 import { bindActionCreators } from 'redux';
 import _ from 'lodash';
 import cookie from 'react-cookie';
@@ -14,8 +14,13 @@ class CartView extends React.Component {
   onRemoveFromCart(id) {
     this.props.removeFromCart(id);
   }
+
+  onCheckOutReq() {
+    this.props.checkOutReq();
+  }
   render(){
     var {cart} = this.props;
+    cookie.save('cart_products', this.props.cart);
     if(!cart) {
       return (
         <div>Loading..</div>
@@ -23,7 +28,10 @@ class CartView extends React.Component {
     }
     if(cart) {
       return(
-        <CartRender cart={cart} addToCart={this.onAddToCart.bind(this)} removeFromCart={this.onRemoveFromCart.bind(this)} />
+        <CartRender cart={cart} 
+        addToCart={this.onAddToCart.bind(this)} 
+        removeFromCart={this.onRemoveFromCart.bind(this)}
+        checkOutReq={this.onCheckOutReq.bind(this)} />
       );
     }
   }
@@ -34,7 +42,7 @@ function mapStateToProps( state ) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ addToCart, removeFromCart }, dispatch);
+  return bindActionCreators({ addToCart, removeFromCart, checkOutReq }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CartView);

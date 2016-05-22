@@ -6,10 +6,12 @@ import { Link } from 'react-router';
 import cookie from 'react-cookie';
 
 import ProductRender from '../components/ProductRender';
+import ImageBox from '../components/ImageBox';
 
 class ProductView extends React.Component {
   componentWillMount() {
     this.props.getProduct(this.props.params.id); 
+      
   }
 
   onAddToCart(id) {
@@ -24,16 +26,51 @@ class ProductView extends React.Component {
   }
 
   render(){
+    cookie.save('cart_products', this.props.cart.productsAdded); // Save state to cookie
     var { product } = this.props;
-    cookie.save('cart_products', this.props.cart.productsAdded);
+
+    // const images = [
+    //   {
+    //     original: 'http://lorempixel.com/1000/600/nature/1/',
+    //     thumbnail: 'http://lorempixel.com/250/150/nature/1/',
+    //     originalClass: 'featured-slide',
+    //     thumbnailClass: 'featured-thumb',
+    //     originalAlt: 'original-alt',
+    //     thumbnailAlt: 'thumbnail-alt',
+    //     description: 'Optional description...',
+    //     srcSet: 'Optional srcset (responsive images src)',
+    //     size: '500'
+    //   },
+    //   {
+    //     original: 'http://lorempixel.com/1000/600/nature/2/',
+    //     thumbnail: 'http://lorempixel.com/250/150/nature/2/'
+    //   }
+    // ]
     if(!product) {
       return(
         <div>Loading..</div>
       );
     }
     if(product){
+    var images = [];
+    for(var i = 0; i < product.paths.length; i++) {
+      images.push({
+        original: product.paths[i],
+        thumbnail: product.pathsThumb[i],
+        originalClass: 'featured-slide',
+        thumbnailClass: 'featured-thumb',
+        originalAlt: 'original-alt',
+        thumbnailAlt: 'thumbnail-alt'
+      });
+    }
       return(
-        <ProductRender product={product} addToCart={this.onAddToCart.bind(this)}  />
+        <div>
+          <ProductRender 
+          product={product} 
+          addToCart={this.onAddToCart.bind(this)}
+          images={images} 
+            />
+        </div>
       );
     }
   }

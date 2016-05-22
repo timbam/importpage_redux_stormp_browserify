@@ -52,15 +52,33 @@ class Navbar extends React.Component {
                               <li><a href="#">Cheese</a></li>
                           </ul>
                       </li>
-                      {/*<li className="dropdown">
-                          <a className="dropdown-toggle" data-toggle="dropdown" href="#">France
+                      <li className="dropdown">
+                          <a className="dropdown-toggle" data-toggle="dropdown" href="#">By Country
                               <span className="caret"></span></a>
                           <ul className="dropdown-menu">
-                              <li><a href="#">Sud-Ouest</a></li>
-                              <li><a href="#">etc</a></li>
-                              <li><a href="#">Page 1-3</a></li>
+                            <table className="table">
+                              <thead className="dropdown-table" >
+                                <tr>
+                                  <th><a href="#">France</a></th>
+                                  <th><a href="#">Italy</a></th>
+                                  <th><a href="#">Spain</a></th>
+                                </tr>
+                              </thead>
+                              <tbody className="dropdown-table" >
+                                <tr>
+                                  <td><a href="#">Sud-Ouest</a></td>
+                                  <td><a href="#">Florence</a></td>
+                                  <td><a href="#">Cataluna</a></td>                                
+                                </tr>
+                                <tr>
+                                  <td><a href="#">Alpes</a></td>
+                                  <td><a href="#">Cecily</a></td>
+                                  <td><a href="#">Basque Country</a></td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </ul>
-                      </li>
+                      </li>{/*
                       <li className="dropdown">
                           <a className="dropdown-toggle" data-toggle="dropdown" href="#">Italy
                               <span className="caret"></span></a>
@@ -95,23 +113,17 @@ class Navbar extends React.Component {
                     </Authenticated>
                       <li><Link to="/cart"><span className="glyphicon glyphicon-shopping-cart"></span> Your items</Link></li>
                   </ul>
-                  <ul className="nav navbar-left animated">
-                    <li>
-                    <form ref='searchForm' className='navbar-form' onSubmit={this.handleSubmit.bind(this)}>
-                      <div className='input-group'>
-                        <input 
-                        type='text' 
-                        className='form-control' 
-                        placeholder='Search for products' 
-                        value={this.state.term} 
-                        onChange={this.updateSearchQuery.bind(this)} />
-                        <span className='input-group-btn'>
-                          <button className='btn btn-default' onClick={this.handleSubmit.bind(this)}><span className='glyphicon glyphicon-search'></span></button>
-                        </span>
-                      </div>
-                    </form>            
-                    </li>
-                  </ul>
+                      <form ref='searchForm' className='form-inline input-group' onSubmit={this.handleSubmit.bind(this)}>
+                            <input 
+                            type='text' 
+                            className='form-control' 
+                            placeholder='Search for products' 
+                            value={this.state.term} 
+                            onChange={this.updateSearchQuery.bind(this)} />
+                            <span className='input-group-btn'>
+                              <button className='btn btn-default' onClick={this.handleSubmit.bind(this)}><span className='glyphicon glyphicon-search'></span></button>
+                            </span>
+                      </form>
                  </div>
           </div>
       </nav>

@@ -5,6 +5,8 @@ var path = require('path');
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var reactCookie = require('react-cookie');
+var fs = require('fs');
+var gm = require('gm');
 // Database stuff
 var mongoose = require('mongoose');
 var multer  = require('multer');
@@ -20,27 +22,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/products', express.static(__dirname + '/public'));
 
-// Session stuff
+// Cookie stuff
 app.use(cookieParser());
-// app.use(session({
-//   secret: 'blargadeeblargblarg', // should be a large unguessable string
-//   saveUnitialized: true,
-//   resave: true
-//   // : 24 * 60 * 60 * 1000, // how long the session will stay valid in ms
-//   // cookie: {
-//   //   // path: '/api', // cookie will only be sent to requests under '/api'
-//   //   ephemeral: false, // when true, cookie expires when the browser closes
-//   //   httpOnly: true, // when true, cookie is not accessible from javascript
-//   //   secure: false // when true, cookie will only be sent over SSL. use key 'secureProxy' instead if you handle SSL not in your node process
-//   // }
-// }));
 
 // Stormpath stuff
 app.use(stormpath.init(app, {
+  expand: {
+    customData: true,
+    groups: true
+  },
   web: {
    me: {
     expand: {
-       groups: true
+       groups: true,
+       customData:true
      }
    },
    spa: {
@@ -72,7 +67,10 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
     req.user.givenName = req.body.givenName;
     req.user.surname = req.body.surname;
     req.user.email = req.body.email;
-
+    if(req.body.address1) {
+      req.user.customData['address1'] = req.body.address1;
+      req.user.customData.save();
+    }
     req.user.save(function (err) {
       if (err) {
         return writeError(err.userMessage || err.message);
@@ -80,7 +78,6 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
       res.end();
     });
   }
-
   if (req.body.password) {
     var application = req.app.get('stormpathApplication');
 
@@ -104,7 +101,6 @@ app.post('/me', bodyParser.json(), stormpath.loginRequired, function (req, res) 
 // GET /api/products
 // gets all products
 app.get('/api/products', function(req, res, next){
-  console.log('Get all products requested');
   Product.find().exec(function(err, products){
     if(err) return next(err);
       res.send(products);
@@ -114,8 +110,6 @@ app.get('/api/products', function(req, res, next){
 // Looks up a product by name
 app.get('/api/products/search', function(req, res, next) {
   var searchQuery = new RegExp(req.query.name, 'i');
-  console.log(searchQuery);
-  console.log(req.query);
   Product.
   find().
   or([{ name: searchQuery }, {description: searchQuery}]).
@@ -135,7 +129,6 @@ app.get('/api/products/search', function(req, res, next) {
 // Returns detailed product information
 app.get('/api/products/:id', function(req, res, next){
   var id = req.params.id;
-  console.log('Got request!');
 
   Product.findById((id), function(err, product){
     if(err) return next(err);
@@ -149,21 +142,30 @@ app.get('/api/products/:id', function(req, res, next){
 });
 
 // POST /upload
-// Uploads form & image to cloud
+// Uploads form & image path to cloud
+// Images are stored under /upload
 app.post('/api/upload', upload.array('photos[]'), function(req, res, next){
   var files = req.files;
   var productName = req.body.name;
   var product = new Product({
     name: productName,
     description: req.body.description,
+    category: req.body.category,
+    country: req.body.country,
     price: req.body.price
-    // country: req.body.country,
-    // category: req.body.category,
   });
   // Images
     for(var i = 0; i< files.length; i++) {
       product.paths[i] = 'uploads/' + files[i].filename;
+      product.pathsThumb[i] = 'uploads/' + files[i].filename + 'thumb';
+      var baseFilename = __dirname + '/public/uploads/' + files[i].filename;
+        gm(baseFilename)
+        .thumbnail(150, 150)
+        .write(baseFilename + 'thumb', function(err) {
+          if(err) console.log(err);
+        })
     };
+
   product.save(function(err) {
     if (err) return next(err);
     res.send({ message: productName + ' has been added successfully!' });
@@ -200,7 +202,7 @@ app.get('*', function (req, res) {
 app.on('stormpath.ready', function () {
   console.log('Stormpath Ready');
 
-  app.listen(3000, 'localhost', function (err) {
+  app.listen(3000, '0.0.0.0', function (err) {
     if (err) {
       console.log(err);
       return;

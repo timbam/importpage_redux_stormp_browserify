@@ -7,6 +7,9 @@ const INITIAL_STATE = {
   // quantityById: (cookie.load('cart_quantity') || {}),
   productsAdded: (cookie.load('cart_products') || [])
 }
+const EMPTY_STATE = {
+  productsAdded: []
+}
 
 
 function productsAdded(state = INITIAL_STATE.productsAdded, action) {
@@ -49,8 +52,8 @@ export default function cart(state = INITIAL_STATE, action) {
   switch (action.type) {
     // Checkout not in play yet..
 
-    // case CHECKOUT_REQUEST:
-    //   return INITIAL_STATE;
+    case CHECKOUT_REQUEST:
+      return EMPTY_STATE;
     // case CHECKOUT_FAILURE:
     //   return action.cart
     default:
