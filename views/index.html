@@ -16,5 +16,13 @@
     <script src="/js/vendor.js"></script>
     <script src="/js/vendor.bundle.js"></script>
     <script src="/js/bundle.js"></script>
+    <!-- Fix for bootstrap. Need to implement this in a better way! -->
+    <script>
+     $(document).on('click','.navbar-collapse.in',function(e) {
+        if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+            $(this).collapse('hide');
+        }
+     }); 
+    </script>
   </body>
 </html>

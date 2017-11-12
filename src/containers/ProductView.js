@@ -2,16 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getProduct, addToCart } from '../actions/index.js';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
-import cookie from 'react-cookie';
+import { Link } from 'react-router-dom';
+// import cookie from 'react-cookie';
 
 import ProductRender from '../components/ProductRender';
 import ImageBox from '../components/ImageBox';
 
 class ProductView extends React.Component {
   componentWillMount() {
-    this.props.getProduct(this.props.params.id); 
-      
+    this.props.getProduct(this.props.params.id);
   }
 
   onAddToCart(id) {
@@ -20,13 +19,14 @@ class ProductView extends React.Component {
       id: product._id,
       name: product.name,
       price: product.price,
-      count: 1
+      count: 1,
+      pathThumb: product.pathsThumb[0]
     };
     this.props.addToCart(cartProduct);
   }
 
   render(){
-    cookie.save('cart_products', this.props.cart.productsAdded); // Save state to cookie
+    // cookie.save('cart_products', this.props.cart.productsAdded); // Save state to cookie
     var { product } = this.props;
 
     // const images = [
@@ -65,10 +65,10 @@ class ProductView extends React.Component {
     }
       return(
         <div>
-          <ProductRender 
-          product={product} 
+          <ProductRender
+          product={product}
           addToCart={this.onAddToCart.bind(this)}
-          images={images} 
+          images={images}
             />
         </div>
       );

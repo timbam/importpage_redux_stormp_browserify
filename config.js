@@ -1,4 +1,4 @@
-process.env.MONGO_URI = 'mongodb://timbam:timbam@ds015889.mlab.com:15889/heroku_5ndtzjf7';
+process.env.MONGO_URI = 'mongodb://timbam:timbam@ds249025.mlab.com:49025/importpage'
 module.exports = {
   database: process.env.MONGO_URI || 'localhost/nef'
 };

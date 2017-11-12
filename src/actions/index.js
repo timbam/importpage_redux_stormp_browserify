@@ -7,6 +7,7 @@ export const CREATE_PRODUCT = 'CREATE_PRODUCT';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
+export const REMOVE_ITEM_FROM_CART = 'REMOVE_ITEM_FROM_CART';
 // export const ADD_PRODUCT_TO_CART = 'ADD_PRODUCT_TO_CART';
 export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
 export const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST';
@@ -68,6 +69,13 @@ export function removeFromCart(id) {
     type: REMOVE_FROM_CART,
     payload: id
   };
+}
+
+export function removeItemFromCart(id) {
+  return {
+    type: REMOVE_ITEM_FROM_CART,
+    payload: id
+  }
 }
 
 export function checkOutReq() {

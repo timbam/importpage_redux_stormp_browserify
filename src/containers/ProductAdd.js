@@ -1,17 +1,22 @@
 import React from 'react';
+import { withRouter} from 'react-router-dom';
 import Dropzone from 'react-dropzone';
 import { createProduct } from '../actions/index';
 import { bindActionCreators } from 'redux';
-import { reduxForm } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 
 class ProductAdd extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object
-  };
+  // static contextTypes = {
+  //   router: React.PropTypes.object
+  // };
   constructor(props) {
     super(props);
     this.state = { dropFiles: []};
   }
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   handleSubmit(data) {
     event.preventDefault();
     var fd = new FormData();
@@ -27,17 +32,31 @@ class ProductAdd extends React.Component {
     };
     this.props.createProduct(fd)
       .then(() => {
-        this.context.router.push('/');
+        withRouter.history.push('/');
       })
   }
 
   onDrop(filesToUpload, e) {
-    this.props.fields.files.onChange(filesToUpload);
+    // this.props.fields.files.onChange(filesToUpload);
     this.setState({ dropFiles: filesToUpload});
+    console.log(filesToUpload);
   }
 
+  renderField = ({
+    input,
+    label,
+    type,
+    meta: {touched, error}
+  }) => (
+    <div>
+      <label className='control-label'>{label}</label>
+      <input {...input} type={type} placeholder={label} className='form-control'/>
+      {touched && <span className='help-block'>{error}</span>}
+    </div>
+  )
+
   render() {
-    const { fields: {name, description, price, files}, handleSubmit } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <div className='container jumbotron'>
         <div className='row flipInX animated'>
@@ -45,32 +64,37 @@ class ProductAdd extends React.Component {
             <div className='panel panel-default'>
               <div className='panel-heading'>Add Product</div>
               <div className='panel-body'>
-
                 <form onSubmit={handleSubmit(this.handleSubmit.bind(this)) } >
-                <div>
-                  <Dropzone {... files } onDrop={ this.onDrop.bind(this) } className="dropzone">
-                    {this.state.dropFiles.length > 0 ? <div> 
-                    <img key={this.state.dropFiles[0].preview} src={this.state.dropFiles[0].preview} />
-                    </div> : <p>Drag and drop or click here to add pictures</p>}
-                  </Dropzone> 
-                  <br/>
-                </div>
-                  <div className={`form-group ${name.touched && name.invalid ? 'has-error' : ''}`}>
-                    <span className='help-block'>{name.touched ? name.error : ''}</span>
-                    <label className='control-label'>Product Name</label>
-                    <input type='text' className='form-control' {...name} />
-                  </div>
-
-                  <div className={`form-group ${description.touched && description.invalid ? 'has-error' : ''}`}>
-                    <span className='help-block'>{description.touched ? description.error : ''}</span>
-                    <label className='control-label'>Product description</label>
-                    <input type='text' className='form-control' {...description} />
-                  </div>
-                  <div className={`form-group ${price.touched && price.invalid ? 'has-error' : ''}`}>
-                    <span className='help-block'>{price.touched ? price.error : ''}</span>
-                    <label className='control-label'>Product price</label>
-                    <input type='text' className='form-control' {...price} />
-                  </div>                  
+                <Field
+                  name="files"
+                  component={files =>
+                      <Dropzone {...files } onDrop={ this.onDrop.bind(this) } className="dropzone">
+                        {this.state.dropFiles.length > 0 ?
+                        <div>
+                          <img key={this.state.dropFiles[0].preview} src={this.state.dropFiles[0].preview} />
+                        </div> : <p>Drag and drop or click here to add pictures</p>}
+                      </Dropzone>
+                  }/>
+                  <Field
+                    name="name"
+                    type="text"
+                    label="Name"
+                    component={this.renderField.bind(this)}/>
+                  <Field
+                    name="description"
+                    type="text"
+                    label="Description"
+                    component={this.renderField.bind(this)}/>
+                  <Field
+                    name="country"
+                    type="text"
+                    label="Country"
+                    component={this.renderField.bind(this)}/>
+                  <Field
+                    name="price"
+                    type="text"
+                    label="Price"
+                    component={this.renderField.bind(this)}/>
                   <button type='submit' className='btn btn-primary'>Submit</button>
                 </form>
               </div>
@@ -82,7 +106,7 @@ class ProductAdd extends React.Component {
   }
 }
 
-function validate(values) {
+const validate = values => {
   const errors = {};
 
   if(!values.name) {
@@ -93,12 +117,22 @@ function validate(values) {
   }
   if(!values.price) {
     errors.price = "Please enter a product price";
+  } else if(isNaN(Number(values.price))) {
+      errors.price = "Must be a number";
+  }
+  if(!values.country) {
+    errors.country = "Please enter a product country";
+  }
+  if(!values.category) {
+    errors.category = "Please enter a product category";
+  }
+  if(!values.files){
+    errors.files = "Please add one or more photos to your product";
   }
   return errors;
 }
 
 export default reduxForm({
   form: 'ProductsNewForm',
-  fields: ['name', 'description', 'price', 'files'],
   validate
 }, null, { createProduct })(ProductAdd);

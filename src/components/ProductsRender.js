@@ -5,7 +5,7 @@ export default (props) => {
       var productNodes = props.products.map((product, index) => {
         var imgSource = product.paths[0];
         return (
-          <div key={product._id} className={'col-xs-6 col-sm-6 col-md-5'}>
+          <div key={product._id} className='col-xs-6 col-sm-6 col-md-5'>
             <div className='thumbnail animated jumbotron'>
                 <h3 className="text-center" >{product.name}</h3>
               <Link to={`/products/${product._id}`} className='caption holdImg'>

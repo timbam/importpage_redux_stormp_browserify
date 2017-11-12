@@ -5,15 +5,17 @@ export default (props) => {
   var sum = 0;
   var cartProducts = cart.map((product) => {
     sum = sum + product.price * product.count;
+    console.log(product);
     return (
         <tr key={product.id}>
-          <td>{product.name}</td>
+          <td><img src={product.pathThumb} /> {product.name}</td>
           <td>{product.price}</td>
           <td>{product.count} 
-          <button className="btn" onClick={props.removeFromCart.bind(this, product.id)} >-</button> 
-          <button className="btn" onClick={props.addToCart.bind(this, product)} >+</button> 
+          <button onClick={props.removeFromCart.bind(this, product.id)} className="btn btn-link" ><span className="glyphicon glyphicon-minus"></span> </button>
+          <button className="btn btn-link" onClick={props.addToCart.bind(this, product)} > <span className="glyphicon glyphicon-plus"></span></button> 
           </td>
           <td>{product.price * product.count}</td>
+          <td><button className="btn btn-link" onClick={props.removeItemFromCart.bind(this, product.id)} ><span className="glyphicon glyphicon-remove"></span> Remove Product</button></td>
         </tr>
     );
   });
@@ -25,9 +27,9 @@ export default (props) => {
           <thead>
             <tr>
               <th>Product Name</th>
-              <th>Price</th>
+              <th>Individual Price</th>
               <th>Number of Items</th>
-              <th>Total Sum</th>
+              <th>Sum</th>
             </tr>
           </thead>
           <tbody>
