@@ -4,9 +4,9 @@ var productSchema = new mongoose.Schema({
   name: String,
   description: String,
   country: String,
-  category: String,
+  // category: String,
   paths: [String],
-  pathsThumb: [String],  
+  pathsThumb: [String],
   price: Number,
   timesSold: { type: Number, default: 0 }
 });

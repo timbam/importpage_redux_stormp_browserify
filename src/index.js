@@ -14,7 +14,7 @@ import App from './components/App';
 // import RegistrationPage from './components/RegistrationPage';
 import Home from './containers/Home';
 import ProductAdd from './containers/ProductAdd';
-// import ProductView from './containers/ProductView';
+import ProductView from './containers/ProductView';
 import CartView from './containers/CartView';
 // import Profile from './containers/Profile';
 
@@ -44,6 +44,7 @@ ReactDOM.render(
          <Route exact path="/" component={Home} />
          <Route path="/add" component={ProductAdd} />
          <Route path="/cart" component={CartView} />
+         <Route path="/products/:id" component={ProductView} />
        </div>
       {/* <Route component={Home}> */}
 
@@ -51,7 +52,6 @@ ReactDOM.render(
         {/* <Route path="/products/search" component={Home} />
         <Route path="/register" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/products/:id" component={ProductView} />
         {/* <AuthenticatedRoute path="/add" inGroup="Importer" component={ProductAdd} />
         <AuthenticatedRoute path="/profile" component={Profile} /> */}
       {/* </Route> */}

@@ -13,7 +13,7 @@ export const CHECKOUT_FAILURE = 'CHECKOUT_FAILURE';
 export const CHECKOUT_REQUEST = 'CHECKOUT_REQUEST';
 
 export function searchProduct(payload) {
-  const request = axios.get('/api/products/search?name=' + payload); 
+  const request = axios.get('/api/products/search?name=' + payload);
   return {
     type: SEARCH_PRODUCT,
     payload: request
@@ -21,7 +21,7 @@ export function searchProduct(payload) {
 }
 
 export function getAllProducts() {
-  const request = axios.get('/api/products/'); 
+  const request = axios.get('/api/products/');
   return {
     type: GET_PRODUCTS,
     payload: request
@@ -29,7 +29,7 @@ export function getAllProducts() {
 }
 
 export function getProduct(id) {
-  const request = axios.get('/api/products/' + id); 
+  const request = axios.get('/api/products/' + id);
   return {
     type: GET_PRODUCT,
     payload: request
@@ -41,6 +41,7 @@ export function createProduct(form) {
   var opts = {
   transformRequest: function(data) { return data; }
 };
+console.log(form);
   const request = axios.post('/api/upload', form, opts);
   return {
     type: CREATE_PRODUCT,

@@ -1,14 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { getAllProducts, removeProduct, searchProduct } from '../actions/index';
 import ProductsRender from '../components/ProductsRender';
 
 class Home extends React.Component {
-  // static contextTypes = {
-  //   user: React.PropTypes.object
-  // };
 
   constructor(props) {
     super(props);
@@ -23,13 +19,16 @@ class Home extends React.Component {
     this.props.getAllProducts();
     };
   }
-
+  componentDidMount() {
+    console.log(this.props.products);
+  }
   onRemoveProduct(id) {
     this.props.removeProduct(id);
   }
 
   render() {
     // console.log(cookie.load('cart_products'));
+    console.log(this.props);
       if(!this.props.products){
         return (
           <div className='container'>

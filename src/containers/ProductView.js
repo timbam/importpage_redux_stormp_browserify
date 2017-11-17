@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getProduct, addToCart } from '../actions/index.js';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 // import cookie from 'react-cookie';
 
 import ProductRender from '../components/ProductRender';
@@ -10,7 +9,7 @@ import ImageBox from '../components/ImageBox';
 
 class ProductView extends React.Component {
   componentWillMount() {
-    this.props.getProduct(this.props.params.id);
+    this.props.getProduct(this.props.match.params.id);
   }
 
   onAddToCart(id) {

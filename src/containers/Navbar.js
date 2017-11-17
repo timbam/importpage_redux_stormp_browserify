@@ -6,10 +6,6 @@ import { searchProduct } from '../actions/index.js';
 import { browserHistory, Link } from 'react-router-dom';
 
 class Navbar extends React.Component {
-  // static contextTypes = {
-  //   user: React.PropTypes.object
-  //   // authenticated: React.PropTypes.bool
-  // };
 
   constructor(props) {
     super(props);
@@ -43,11 +39,11 @@ class Navbar extends React.Component {
                       <span className="icon-bar"></span>
                       <span className="icon-bar"></span>
                   </button>
-                  <a className="navbar-brand" href="/">Quality Foods</a>
+                  <Link className="navbar-brand" to="/">Quality Foods</Link>
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
                   <ul className="nav navbar-nav">
-                      <li className="dropdown">
+                      {/* <li className="dropdown">
                           <a className="dropdown-toggle" data-toggle="dropdown" href="#">By Category
                               <span className="caret"></span></a>
                           <ul className="dropdown-menu">
@@ -55,9 +51,9 @@ class Navbar extends React.Component {
                               <li><a href="#">Olive oil</a></li>
                               <li><a href="#">Cheese</a></li>
                           </ul>
-                      </li>
+                      </li> */}
                       <li className="dropdown">
-                          <a className="dropdown-toggle" data-toggle="dropdown" href="#">By Country
+                          <a className="dropdown-toggle" data-toggle="dropdown" href="#">Country
                               <span className="caret"></span></a>
                           <ul className="dropdown-menu">
                             <table className="table">
@@ -91,18 +87,20 @@ class Navbar extends React.Component {
                       <li>
                         <Link to="/add">Add items</Link>
                       </li>
-                      <li><Link to="/cart"><span className="glyphicon glyphicon-shopping-cart"> <span className="navbar-sum">{sum}</span></span> Your items </Link></li>
+                      <li><Link to="/cart"><span className="glyphicon glyphicon-shopping-cart"><span className="navbar-sum">{sum}</span></span></Link></li>
                   </ul>
                       <form ref='searchForm' className='form-inline input-group' onSubmit={this.handleSubmit.bind(this)}>
                             <input
                             type='text'
-                            className='form-control'
+                            className='form-control searchBar'
                             placeholder='Search for products'
                             value={this.state.term}
-                            onChange={this.updateSearchQuery.bind(this)} />
-                            <span className='input-group-btn'>
+                            onChange={this.updateSearchQuery.bind(this)}
+                            onSubmit={this.handleSubmit.bind(this)}
+                           />
+                            {/* <span className='input-group-btn'>
                               <button className='btn btn-default' onClick={this.handleSubmit.bind(this)}><span className='glyphicon glyphicon-search'></span></button>
-                            </span>
+                            </span> */}
                       </form>
                  </div>
           </div>

@@ -76,6 +76,7 @@ dbCon.once('open', function(){
 app.get('/api/products', function(req, res, next){
   Product.find().exec(function(err, products){
     if(err) return next(err);
+      console.log("yo");
       res.send(products);
   });
 });
@@ -120,10 +121,11 @@ app.post('/api/upload', upload.array('photos[]'), function(req, res, next){
   var product = new Product({
     name: productName,
     description: req.body.description,
-    category: req.body.category,
+    // category: req.body.category,
     country: req.body.country,
     price: req.body.price
   });
+  console.log(productName);
   // Images
     for(var i = 0; i< files.length; i++) {
       product.paths[i] = 'uploads/' + files[i].filename;
