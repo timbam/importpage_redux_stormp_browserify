@@ -9,7 +9,8 @@ class Navbar extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { term: ''};
+    this.state = { term: '', fixedCN: ''};
+    this.handleScroll = this.handleScroll.bind(this);
   }
   updateSearchQuery(event) {
     this.setState({term: event.target.value});
@@ -24,7 +25,13 @@ class Navbar extends React.Component {
   }
 
   handleScroll(e){
-    console.log(e.srcElement.scrollingElement.scrollTop);
+    let { scrollTop } = e.srcElement.scrollingElement;
+    let fixedCN = '';
+    console.log(scrollTop);
+    fixedCN = scrollTop > 2 ? ' navbar-fixed' : '';
+    this.setState({
+      fixedCN: fixedCN
+    });
   }
 
   handleSubmit(event) {
@@ -42,8 +49,8 @@ class Navbar extends React.Component {
       sum = sum + product.count;
     });
     return (
-      <nav className="navbar navbar-inverse navbar-fixed-top">
-          <div className="container-fluid">
+      <nav className={'navbar' + this.state.fixedCN}>
+          <div className={'container-fluid' + this.state.fixedCN}>
               <div className="navbar-header">
                   <button type="button" className="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
                       <span className="icon-bar"></span>
@@ -53,7 +60,7 @@ class Navbar extends React.Component {
                   <Link className="navbar-brand" to="/">Quality Foods</Link>
               </div>
               <div className="collapse navbar-collapse" id="myNavbar">
-                  <ul className="nav navbar-nav">
+                  <ul className={'nav navbar-nav' + this.state.fixedCN}>
                       {/* <li className="dropdown">
                           <a className="dropdown-toggle" data-toggle="dropdown" href="#">By Category
                               <span className="caret"></span></a>
@@ -91,7 +98,7 @@ class Navbar extends React.Component {
                           </ul>
                       </li>
                   </ul>
-                  <ul className="nav navbar-nav navbar-right">
+                  <ul className={'nav navbar-nav navbar-right' + this.state.fixedCN}>
                       {/* <li><Link to="/register"><span className="glyphicon glyphicon-align-left" aria-hidden="true"></span> Sign Up</Link></li> */}
                       {/* <li><Link to="/profile"><span className="glyphicon glyphicon-user"></span> Your Profile </Link></li>
                       <li><Link><span className="glyphicon glyphicon-log-out"></span> Log Out</Link></li> */}

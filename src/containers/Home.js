@@ -27,8 +27,8 @@ class Home extends React.Component {
     // console.log(this.props);
       if(!this.props.products){
         return (
-          <div className='container'>
-            <div className='row'>
+          <div className='container products'>
+            <div className='row yoyo'>
               <div className="jumbotron">
                Loading..
               </div>

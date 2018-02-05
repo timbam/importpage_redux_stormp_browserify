@@ -1,7 +1,51 @@
+@nb-txt: black;
+@nb-bg: white;
+@searchBar-bc: #f6f6f6;
+@nb-txt-fixed: #DCDCDC;
+@nb-bg-fixed: black;
+
+
+.navbar {
+  border-radius: 0;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: @nb-bg;
+  border: none;
+}
+.navbar.navbar-fixed {
+  position: fixed;
+  z-index: 2;
+  // height: 50px;
+  line-height: 0px;
+  background-color: black;
+}
+.container-fluid {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: @nb-txt;
+}
+.navbar-nav li > a {
+  color: @nb-txt;
+}
+.navbar-nav.navbar-fixed li > a {
+  color: @nb-txt-fixed;
+}
+.container-fluid.navbar-fixed {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .navbar-header .navbar-brand{
+    font-size:35px;
+    font-family:Garamond;
+    color: @nb-txt;
+    text-decoration: none;
+}
+.navbar-fixed .navbar-header .navbar-brand{
     font-size:30px;
     font-family:Garamond;
-    color:#DCDCDC;
+    color: @nb-txt-fixed;
     text-decoration: none;
 }
 .dropdown-menu{
@@ -62,11 +106,13 @@
 .navbar-sum {
     font-weight: bold;
     size: 23px;
-    color: #DCDCDC;
+    color: @nb-txt;
     position: absolute;
     margin-top: 6px;
 }
-
+.navbar-fixed .navbar-sum {
+  color: @nb-txt-fixed;
+}
 // Search bar
 .input-group{
     margin-top:10px;
@@ -75,11 +121,25 @@
     display: flex;
 }
 .searchBar{
-  border-radius: 3px !important;
+  border-radius: 0px !important;
   border-style: none;
-  background-color: #414141;
-  color: #cbcbcb;
+  background-color: @searchBar-bc;
+  color: @nb-txt;
+  -webkit-box-shadow: none;
 }
 .searchBar:focus{
   outline: none;
+  -webkit-box-shadow: none;
+}
+
+//Transitions
+.navbar,
+.navbar-fixed,
+.navbar-header .navbar-brand,
+.navbar-fixed .navbar-header .navbar-brand,
+.container-fluid {
+  transition: 0.5s;
+  -webkit-transition: 0.5s;
+  -moz-transition: 0.5s;
+  -o-transition: 0.5s;
 }

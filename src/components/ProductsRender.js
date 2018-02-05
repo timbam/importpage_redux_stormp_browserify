@@ -21,7 +21,7 @@ export default (props) => {
       });
 
     return (
-      <div className='container'>
+      <div className='container productsRender'>
         <div className='row'>
           {productNodes}
         </div>
