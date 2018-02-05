@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 // import cookie from 'react-cookie';
 
 import ProductRender from '../components/ProductRender';
-import ImageBox from '../components/ImageBox';
+// import ImageBox from '../components/ImageBox';
 
 class ProductView extends React.Component {
   componentWillMount() {

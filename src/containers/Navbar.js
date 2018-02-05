@@ -15,6 +15,17 @@ class Navbar extends React.Component {
     this.setState({term: event.target.value});
   }
 
+  componentWillMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll(e){
+    console.log(e.srcElement.scrollingElement.scrollTop);
+  }
 
   handleSubmit(event) {
     event.preventDefault();
