@@ -9,9 +9,11 @@ export default function(state = INITIAL_STATE, action) {
     case REMOVE_PRODUCT:
       return { ...state, product_array: action.payload.data };
     case SEARCH_PRODUCT:
-      return { ...state, product_array: action.payload.data };      
+      return { ...state, product_array: action.payload.data };
     case GET_PRODUCT:
       return { ...state, product: action.payload.data };
+    case CREATE_PRODUCT:
+      return { ...state, product_array: action.payload.data };
     default:
       return state;
   }

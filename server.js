@@ -140,7 +140,12 @@ app.post('/api/upload', upload.array('photos[]'), function(req, res, next){
 
   product.save(function(err) {
     if (err) return next(err);
-    res.send({ message: productName + ' has been added successfully!' });
+    // res.send({ message: productName + ' has been added successfully!' });
+    Product.find().exec(function(err, products){
+      if(err) return next(err);
+        console.log("yo");
+        res.send(products);
+    });
   });
 });
 
